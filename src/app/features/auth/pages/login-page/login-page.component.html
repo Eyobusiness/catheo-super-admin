@@ -1,0 +1,134 @@
+<div class="auth-viewport">
+  <div class="auth-background-media" aria-hidden="true">
+    <img src="images/video.png" alt="" class="auth-background-image" />
+    <div class="auth-background-overlay"></div>
+    <div class="auth-background-rays"></div>
+  </div>
+
+  <div class="auth-container">
+    <div class="auth-form-panel">
+      <div class="form-panel-content">
+        <div class="mobile-brand-header">
+          <div class="brand-badge-icon sm">
+            <img [src]="brandLogoUrl" alt="Logo Cathéo" class="brand-logo-image" />
+          </div>
+          <span class="brand-name">Cathéo</span>
+        </div>
+
+        <div class="form-header text-center">
+          <h2 class="form-title">Connexion</h2>
+          <p class="form-subtitle">Accédez à votre espace d'administration pastorale</p>
+        </div>
+
+        @if (generalErrorMessage()) {
+          <div class="auth-alert-box">
+            <i class="bi bi-exclamation-octagon-fill"></i>
+            <span>{{ generalErrorMessage() }}</span>
+          </div>
+        }
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+          <div class="form-field-group">
+            <label class="form-label" for="loginEmail">
+              Adresse Email <span class="required">*</span>
+            </label>
+            <div class="input-wrapper">
+              <span class="field-icon"><i class="bi bi-envelope"></i></span>
+              <input
+                id="loginEmail"
+                type="email"
+                formControlName="email"
+                class="field-input"
+                placeholder="Email"
+                autocomplete="email"
+              />
+            </div>
+            @if (loginForm.controls.email.touched && loginForm.controls.email.invalid) {
+              <span class="error-msg">Veuillez saisir une adresse email valide.</span>
+            }
+            @if (serverErrors()?.['email']) {
+              @for (err of serverErrors()!['email']; track err) {
+                <span class="error-msg">{{ err }}</span>
+              }
+            }
+          </div>
+
+          <div class="form-field-group">
+            <div class="field-label-row">
+              <label class="form-label" for="loginPassword">
+                Mot de passe <span class="required">*</span>
+              </label>
+              <a routerLink="/auth/forgot-password" class="link-forgot">
+                Mot de passe oublié ?
+              </a>
+            </div>
+            <div class="input-wrapper">
+              <span class="field-icon"><i class="bi bi-shield-lock"></i></span>
+              <input
+                id="loginPassword"
+                [type]="showPassword() ? 'text' : 'password'"
+                formControlName="password"
+                class="field-input"
+                placeholder="Mot de passe"
+                autocomplete="current-password"
+              />
+              <button
+                type="button"
+                class="btn-toggle-eye"
+                (click)="togglePasswordVisibility()"
+                [title]="showPassword() ? 'Masquer' : 'Afficher'"
+                aria-label="Afficher ou masquer le mot de passe"
+              >
+                <i [class]="showPassword() ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+              </button>
+            </div>
+            @if (loginForm.controls.password.touched && loginForm.controls.password.invalid) {
+              <span class="error-msg">Le mot de passe doit comporter au moins 6 caractères.</span>
+            }
+            @if (serverErrors()?.['password']) {
+              @for (err of serverErrors()!['password']; track err) {
+                <span class="error-msg">{{ err }}</span>
+              }
+            }
+          </div>
+
+          <div class="field-remember-row">
+            <label class="check-label" for="rememberMe">
+              <input
+                id="rememberMe"
+                type="checkbox"
+                formControlName="rememberMe"
+                class="check-input"
+              />
+              <span class="check-text">Se souvenir de moi</span>
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            class="btn-submit-login"
+            [disabled]="isLoading()"
+          >
+            @if (isLoading()) {
+              <span class="spinner-circle"></span>
+              <span>Connexion en cours...</span>
+            } @else {
+              <span>Se connecter</span>
+              <i class="bi bi-arrow-right"></i>
+            }
+          </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 1rem; margin-bottom: 0.5rem;">
+          <a routerLink="/animateur/login" style="font-size: 0.8125rem; font-weight: 600; color: var(--primary-600); text-decoration: none;">
+            Vous êtes catéchiste ? Accéder à l'Espace Animateur →
+          </a>
+        </div>
+
+        <div class="form-footer-copyright">
+          &copy; 2026 Cathéo • Système de Gestion Pastorale
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,103 @@
+<!-- Mobile Backdrop Overlay -->
+@if (isMobileOpen()) {
+  <div class="sidebar-backdrop" (click)="closeMobile()"></div>
+}
+
+<aside
+  [class]="'app-sidebar ' + (isCollapsed() ? 'is-collapsed' : '') + (isMobileOpen() ? ' is-mobile-open' : '')"
+>
+  <!-- Brand Header -->
+  <div class="sidebar-brand">
+    <div class="brand-logo">
+      <img src="image/logo/catheo.png" alt="Cathéo Logo" class="brand-logo-img" />
+    </div>
+
+    @if (!isCollapsed()) {
+      <div class="brand-text">
+        <h1 class="brand-name">{{ brandTitle() }}</h1>
+        <p class="brand-tagline">{{ brandTagline() }}</p>
+      </div>
+    }
+
+    <!-- Close button for mobile -->
+    <button type="button" class="mobile-close-btn" (click)="closeMobile()" aria-label="Fermer le menu">
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
+
+  <!-- Navigation Menu List -->
+  <nav class="sidebar-nav">
+    <ul class="nav-list">
+      @for (item of menuItems(); track item.id) {
+        <li class="nav-item">
+          <!-- Divider separator -->
+          @if (item.isDivider) {
+            <div class="nav-divider" role="separator"></div>
+          } @else if (item.sousMenus && item.sousMenus.length > 0) {
+            <button
+              type="button"
+              class="nav-link nav-accordion-btn"
+              [class.is-open]="isMenuExpanded(item)"
+              (click)="toggleMenu(item, $event)"
+              [title]="isCollapsed() ? item.libelle : ''"
+            >
+              <i [class]="'nav-icon ' + item.icon"></i>
+              @if (!isCollapsed()) {
+                <span class="nav-label">{{ item.libelle }}</span>
+                <i [class]="'bi accordion-chevron ' + (isMenuExpanded(item) ? 'bi-chevron-down' : 'bi-chevron-right')"></i>
+              }
+            </button>
+
+            <!-- Submenu Dropdown List -->
+            @if (!isCollapsed() && isMenuExpanded(item)) {
+              <ul class="submenu-list">
+                @for (sub of item.sousMenus; track sub.path) {
+                  <li class="submenu-item">
+                    <a
+                      [routerLink]="sub.path"
+                      routerLinkActive="active"
+                      (click)="closeMobile()"
+                      class="submenu-link"
+                    >
+                      @if (sub.icon) {
+                        <i [class]="'submenu-icon ' + sub.icon"></i>
+                      }
+                      <span class="submenu-label">{{ sub.libelle }}</span>
+                    </a>
+                  </li>
+                }
+              </ul>
+            }
+          } @else {
+            <a
+              [routerLink]="item.path"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: item.path === '/super-admin/audit' || item.path.endsWith('/dashboard') }"
+              (click)="closeMobile()"
+              class="nav-link"
+              [title]="isCollapsed() ? item.libelle : ''"
+            >
+              <i [class]="'nav-icon ' + item.icon"></i>
+              @if (!isCollapsed()) {
+                <span class="nav-label">{{ item.libelle }}</span>
+              }
+            </a>
+          }
+        </li>
+      }
+    </ul>
+  </nav>
+
+  <!-- Sidebar Footer Info -->
+  <div class="sidebar-footer">
+    @if (!isCollapsed()) {
+      <div class="system-status-card">
+        <div class="status-header">
+          <div class="pulse-dot"></div>
+          <span class="status-title">{{ spaceBadge() }}</span>
+        </div>
+        <p class="status-desc">Connecté au Backend Catheo</p>
+      </div>
+    }
+  </div>
+</aside>

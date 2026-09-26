@@ -1,0 +1,11 @@
+@if (isLoading()) {
+  <div class="global-loading-bar" role="progressbar" aria-label="Chargement en cours">
+    <div class="global-loading-line"></div>
+  </div>
+}
+
+<!-- Le layout (sidebar, header, footer) est géré par chaque feature layout (SuperAdminLayoutComponent, etc.) -->
+<router-outlet />
+
+<!-- Unified Global Toast Container -->
+<app-toast />

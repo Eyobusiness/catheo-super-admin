@@ -1,0 +1,17 @@
+export const STATUS_VARIANTS: Record<string, 'success' | 'danger' | 'warning' | 'info' | 'primary'> = {
+  actif: 'success',
+  inactif: 'danger',
+  suspendu: 'warning',
+  en_attente: 'warning',
+  expire: 'danger',
+  paye: 'success',
+  partiel: 'warning',
+  annule: 'danger',
+  brouillon: 'info',
+  planifie: 'info',
+  en_cours: 'primary',
+  termine: 'success',
+  cloture: 'danger',
+  valide: 'success',
+  rejete: 'danger',
+};

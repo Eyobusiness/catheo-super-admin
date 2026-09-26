@@ -1,0 +1,95 @@
+<header class="app-header">
+  <div class="header-left">
+    <!-- Mobile Menu Toggle Button -->
+    <button
+      type="button"
+      class="mobile-toggle-btn"
+      (click)="toggleMobile()"
+      aria-label="Ouvrir le menu latéral"
+    >
+      <i class="bi bi-list" style="font-size: 1.5rem;"></i>
+    </button>
+
+    <!-- Desktop Collapse Button -->
+    <button
+      type="button"
+      class="desktop-collapse-btn"
+      (click)="toggleCollapse()"
+      aria-label="Réduire ou agrandir le menu"
+    >
+      <i class="bi bi-layout-sidebar-inset" style="font-size: 1.25rem;"></i>
+    </button>
+
+    <!-- Header Title -->
+    <div class="header-title-wrapper" style="margin-left: 1rem;">
+      <span class="header-main-title" style="font-weight: 600; font-size: 0.95rem; color: var(--text-primary);">
+        {{ headerTitle() }}
+      </span>
+    </div>
+  </div>
+
+  <div class="header-right" style="display: flex; align-items: center; gap: 0.75rem;">
+    <!-- Fullscreen Toggle Button -->
+    <button
+      type="button"
+      class="header-icon-btn"
+      (click)="toggleFullscreen()"
+      [title]="isFullscreen() ? 'Quitter plein écran' : 'Plein écran'"
+      style="background: transparent; border: none; cursor: pointer; color: var(--text-secondary); padding: 0.5rem; border-radius: var(--radius-sm);"
+    >
+      <i [class]="'bi ' + (isFullscreen() ? 'bi-fullscreen-exit' : 'bi-fullscreen')" style="font-size: 1.15rem;"></i>
+    </button>
+
+    <!-- User Profile Dropdown Button -->
+    <div class="user-menu-wrapper" style="position: relative;">
+      <button
+        type="button"
+        class="user-btn"
+        (click)="toggleUserMenu($event)"
+        aria-label="Menu utilisateur"
+        style="display: flex; align-items: center; gap: 0.65rem; background: transparent; border: 1px solid var(--border-color); padding: 0.35rem 0.75rem; border-radius: var(--radius-full); cursor: pointer;"
+      >
+        <div
+          class="user-avatar"
+          style="width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-600), var(--accent-600)); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;"
+        >
+          {{ userInitials() }}
+        </div>
+        <div class="user-info" style="text-align: left; display: flex; flex-direction: column;">
+          <span class="user-name" style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">
+            {{ displayName() }}
+          </span>
+          <span class="user-role" style="font-size: 0.72rem; color: var(--text-muted);">
+            {{ userRole() }}
+          </span>
+        </div>
+        <i class="bi bi-chevron-down" style="font-size: 0.75rem; color: var(--text-muted); margin-left: 0.25rem;"></i>
+      </button>
+
+      <!-- Dropdown Popup -->
+      @if (showUserMenu()) {
+        <div
+          class="user-dropdown-menu"
+          style="position: absolute; right: 0; top: 100%; margin-top: 0.5rem; min-width: 220px; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); z-index: 1000; overflow: hidden; padding: 0.5rem 0;"
+        >
+          <div class="user-dropdown-header" style="padding: 0.75rem 1rem; border-bottom: 1px solid var(--border-color);">
+            <p style="margin: 0; font-weight: 600; font-size: 0.85rem; color: var(--text-primary);">{{ displayName() }}</p>
+            <p style="margin: 0.2rem 0 0 0; font-size: 0.75rem; color: var(--text-muted);">{{ user()?.email }}</p>
+          </div>
+
+          <div style="padding: 0.35rem 0;">
+            <button
+              type="button"
+              (click)="logout()"
+              class="dropdown-item"
+              style="width: 100%; text-align: left; background: transparent; border: none; padding: 0.65rem 1rem; font-size: 0.85rem; color: var(--danger-600); cursor: pointer; display: flex; align-items: center; gap: 0.5rem;"
+            >
+              <i class="bi bi-box-arrow-right"></i>
+              <span>Se déconnecter</span>
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</header>

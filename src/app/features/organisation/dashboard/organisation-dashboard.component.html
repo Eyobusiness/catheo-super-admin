@@ -1,0 +1,117 @@
+<div class="page-container" style="padding: 1.5rem;">
+  <!-- Header -->
+  <div class="page-header" style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+    <div>
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+        <span style="background: var(--primary-50); color: var(--primary-700); font-weight: 700; font-size: 0.75rem; padding: 0.2rem 0.5rem; border-radius: var(--radius-sm);">
+          {{ org()?.type_organisation || 'OPPE' }}
+        </span>
+        <span style="font-size: 0.85rem; color: var(--text-muted);">
+          Paroisse : {{ org()?.paroisse?.nom_paroisse || 'Paroisse de rattachement' }}
+        </span>
+      </div>
+      <h1 style="font-size: 1.75rem; font-weight: 700; color: var(--text-primary); margin: 0;">
+        {{ orgTitle() }}
+      </h1>
+    </div>
+    <div style="display: flex; gap: 0.75rem;">
+      <a routerLink="/organisation/membres">
+        <app-button variant="primary" icon="bi bi-person-plus">
+          Nouveau Membre
+        </app-button>
+      </a>
+      <a routerLink="/organisation/activites">
+        <app-button variant="secondary" icon="bi bi-calendar-plus">
+          Nouvelle Activité
+        </app-button>
+      </a>
+    </div>
+  </div>
+
+  <!-- KPI Cards -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <!-- Membres -->
+    <app-card>
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <span style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted);">Membres Inscrits</span>
+          <h2 style="font-size: 2rem; font-weight: 700; color: var(--primary-600); margin: 0.25rem 0 0 0;">
+            {{ org()?.stats?.total_membres || 0 }}
+          </h2>
+        </div>
+        <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: var(--primary-50); color: var(--primary-600); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+          <i class="bi bi-people"></i>
+        </div>
+      </div>
+    </app-card>
+
+    <!-- Activités -->
+    <app-card>
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <span style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted);">Activités Pastorales</span>
+          <h2 style="font-size: 2rem; font-weight: 700; color: var(--accent-600); margin: 0.25rem 0 0 0;">
+            {{ org()?.stats?.total_activites || 0 }}
+          </h2>
+        </div>
+        <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: var(--accent-50); color: var(--accent-600); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+          <i class="bi bi-calendar-event"></i>
+        </div>
+      </div>
+    </app-card>
+
+    <!-- Pèlerinages -->
+    <app-card>
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <span style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted);">Pèlerinages & Voyages</span>
+          <h2 style="font-size: 2rem; font-weight: 700; color: var(--warning-600); margin: 0.25rem 0 0 0;">
+            {{ stats().pelerinages_actifs }}
+          </h2>
+        </div>
+        <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: var(--warning-50); color: var(--warning-600); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+          <i class="bi bi-compass"></i>
+        </div>
+      </div>
+    </app-card>
+
+    <!-- Caisse -->
+    <app-card>
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <span style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted);">Solde Caisse</span>
+          <h2 style="font-size: 1.75rem; font-weight: 700; color: var(--success-600); margin: 0.25rem 0 0 0;">
+            {{ stats().solde_caisse | number }} FCFA
+          </h2>
+        </div>
+        <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: var(--success-50); color: var(--success-600); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+          <i class="bi bi-cash-coin"></i>
+        </div>
+      </div>
+    </app-card>
+  </div>
+
+  <!-- Catheo Passerelle Status -->
+  <app-card>
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--success-50); color: var(--success-600); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+          <i class="bi bi-link-45deg"></i>
+        </div>
+        <div>
+          <h3 style="font-size: 1rem; font-weight: 600; margin: 0; color: var(--text-primary);">
+            Passerelle Catheo Population Active
+          </h3>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0.2rem 0 0 0;">
+            Synchronisation en lecture avec les effectifs de catéchèse de la paroisse sur les sections autorisées.
+          </p>
+        </div>
+      </div>
+      <a routerLink="/organisation/catheo-population">
+        <app-button variant="outline" icon="bi bi-search">
+          Consulter les effectifs
+        </app-button>
+      </a>
+    </div>
+  </app-card>
+</div>
